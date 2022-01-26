@@ -1,0 +1,60 @@
+x= 0 ;
+y = 0 ;
+draw_circle= "";
+draw_rect="";
+
+var SpeechRecognition = window.webkitSpeechRecognition ;
+var recognition= new SpeechRecognition();
+
+function start()
+{
+    document.getElementById("status").innerHTML= "SYSTEM IS LISTENING , Please Speak";
+    recognition.start() ;
+}
+
+recognition.onresult = function(event) 
+{
+    console.log(event);
+
+    var content= event.results[0][0].transcript;
+
+    document.getElementById("status").innerHTML= "The Speach Has Been Recognized As:" + content ;
+    if (content == "circle")
+    {
+    x= Math.floor(Math.random() * 900);
+    y= Math.floor(Math.random() * 600);
+    document.getElementById("status").innerHTML= "Started Drawing The Circle!" ;
+    draw_circle= "set" ;
+    }
+
+    if (content == "rectangle")
+    {
+    x= Math.floor(Math.random() * 900);
+    y= Math.floor(Math.random() * 600);
+    document.getElementById("status").innerHTML= "Started Drawing The Rectangle!" ;
+    draw_rect= "set" ;
+    }
+}
+
+function setup()
+{
+    canvas= createCanvas(900,600);
+}
+
+function draw() 
+{
+    if(draw_circle == "set")
+    {
+        radius = Math.floor(Math.random() * 100);
+        circle(x , y , radius);
+        document.getElementById("status").innerHTML = "Circle Is Drawn On The Screen" ;
+        draw_circle= "";
+    }
+
+    if(draw_rect == "set")
+    {
+        rect(x , y ,70 , 50);
+        document.getElementById("status").innerHTML = "Rectangle Is Drawn On The Screen" ;
+        draw_rect= "";
+    }
+}
